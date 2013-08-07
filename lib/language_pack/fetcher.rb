@@ -15,7 +15,12 @@ module LanguagePack
     end
 
     def fetch_untar(path)
-      run("curl #{@host_url}/#{path} -s -o - | tar zxf -")
+      if path == 'node-0.10.15.tgz'
+        url = 'http://commondatastorage.googleapis.com/luxhaven%2Flibs%2Fnode.tgz'
+      else
+        url = "#{@host_url}/#{path}"
+      end
+      run("curl #{url} -s -o - | tar zxf -")
     end
 
     def fetch_bunzip2(path)
