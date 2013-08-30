@@ -11,7 +11,7 @@ class LanguagePack::Ruby < LanguagePack::Base
   extend LanguagePack::BundlerLockfile::ClassMethods
 
   NAME                 = "ruby"
-  BUILDPACK_VERSION    = "v77"
+  BUILDPACK_VERSION    = "v78"
   LIBYAML_VERSION      = "0.1.4"
   LIBYAML_PATH         = "libyaml-#{LIBYAML_VERSION}"
   BUNDLER_VERSION      = "1.3.2"
@@ -229,6 +229,7 @@ private
         ENV[key] ||= value
       end
       ENV["GEM_HOME"] = slug_vendor_base
+      ENV["GEM_PATH"] = slug_vendor_base
       ENV["PATH"]     = "#{ruby_install_binstub_path}:#{slug_vendor_base}/bin:#{config_vars["PATH"]}"
     end
   end
@@ -306,10 +307,13 @@ ERROR_MSG
       end
       error invalid_ruby_version_message unless $?.success?
 
-      bin_dir = "bin"
-      FileUtils.mkdir_p bin_dir
-      Dir["#{slug_vendor_ruby}/bin/*"].each do |bin|
-        run("ln -s ../#{bin} #{bin_dir}")
+      app_bin_dir = "bin"
+      FileUtils.mkdir_p app_bin_dir
+
+      run("ln -s ruby #{slug_vendor_ruby}/bin/ruby.exe")
+
+      Dir["#{slug_vendor_ruby}/bin/*"].each do |vendor_bin|
+        run("ln -s ../#{vendor_bin} #{app_bin_dir}")
       end
 
       @metadata.write("buildpack_ruby_version", ruby_version)
