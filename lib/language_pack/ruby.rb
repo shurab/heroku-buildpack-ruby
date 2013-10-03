@@ -14,14 +14,13 @@ class LanguagePack::Ruby < LanguagePack::Base
   BUILDPACK_VERSION    = "v78"
   LIBYAML_VERSION      = "0.1.4"
   LIBYAML_PATH         = "libyaml-#{LIBYAML_VERSION}"
-  BUNDLER_VERSION      = "1.3.5"
+  BUNDLER_VERSION      = "1.3.2"
   BUNDLER_GEM_PATH     = "bundler-#{BUNDLER_VERSION}"
-  NODE_VERSION         = "0.10.20"
+  NODE_VERSION         = "0.10.15"
   NODE_JS_BINARY_PATH  = "node-#{NODE_VERSION}"
   JVM_BASE_URL         = "http://heroku-jdk.s3.amazonaws.com"
   JVM_VERSION          = "openjdk7-latest"
-  # DEFAULT_RUBY_VERSION = "ruby-2.0.0"
-  DEFAULT_RUBY_VERSION = "ruby-1.9.3"
+  DEFAULT_RUBY_VERSION = "ruby-2.0.0"
   RBX_BASE_URL         = "http://binaries.rubini.us/heroku"
 
   # detects if this is a valid Ruby app
