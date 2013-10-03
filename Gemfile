@@ -9,3 +9,5 @@ group :development, :test do
   gem "parallel_tests"
   gem 'rspec-retry'
 end
+
+gem 'vulcan'

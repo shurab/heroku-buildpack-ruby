@@ -2,7 +2,8 @@ require "fileutils"
 require "tmpdir"
 require 'hatchet/tasks'
 
-S3_BUCKET_NAME  = "heroku-buildpack-ruby"
+#S3_BUCKET_NAME  = "heroku-buildpack-ruby"
+S3_BUCKET_NAME  = "rho-heroku-buildpack"
 VENDOR_URL      = "https://s3.amazonaws.com/#{S3_BUCKET_NAME}"
 
 def s3_tools_dir
@@ -32,6 +33,7 @@ def in_gem_env(gem_home, &block)
   old_gem_home = ENV['GEM_HOME']
   old_gem_path = ENV['GEM_PATH']
   ENV['GEM_HOME'] = ENV['GEM_PATH'] = gem_home.to_s
+  # ENV['GEM_HOME'] = gem_home.to_s
 
   yield
 
@@ -133,12 +135,13 @@ task "node:install", :version do |t, args|
     Dir.chdir(tmpdir) do |dir|
       FileUtils.rm_rf("#{tmpdir}/*")
 
-      sh "curl http://nodejs.org/dist/node-v#{version}.tar.gz -s -o - | tar vzxf -"
+      sh "curl http://nodejs.org/dist/v#{version}/node-v#{version}.tar.gz -s -o - | tar vzxf -"
 
       build_command = [
         "./configure --prefix #{prefix}",
         "make install",
         "mv #{prefix}/bin/node #{prefix}/.",
+        "mv #{prefix}/bin/npm #{prefix}/.",
         "rm -rf #{prefix}/include",
         "rm -rf #{prefix}/lib",
         "rm -rf #{prefix}/share",
