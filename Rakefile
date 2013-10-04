@@ -2,7 +2,6 @@ require "fileutils"
 require "tmpdir"
 require 'hatchet/tasks'
 
-#S3_BUCKET_NAME  = "heroku-buildpack-ruby"
 S3_BUCKET_NAME  = "rho-heroku-buildpack"
 VENDOR_URL      = "https://s3.amazonaws.com/#{S3_BUCKET_NAME}"
 
@@ -140,7 +139,6 @@ task "node:install", :version do |t, args|
         "./configure --prefix #{prefix}",
         "make install",
         "mv #{prefix}/bin/node #{prefix}/.",
-        "mv #{prefix}/bin/npm #{prefix}/.",
         "rm -rf #{prefix}/include",
         "rm -rf #{prefix}/lib",
         "rm -rf #{prefix}/share",
