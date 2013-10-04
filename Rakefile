@@ -314,7 +314,7 @@ task "ruby:manifest" do
   require 'yaml'
 
   document = REXML::Document.new(`curl https://#{S3_BUCKET_NAME}.s3.amazonaws.com`)
-  rubies   = document.elements.to_a("//Contents/Key").map {|node| node.text }.select {|text| text.match(/^(ruby|rbx|jruby)-\\\\d+\\\\.\\\\d+\\\\.\\\\d+(-p\\\\d+)?/) }
+  rubies   = document.elements.to_a("//Contents/Key").map {|node| node.text}.select{|text| /^(ruby|rbx|jruby)-\d+\.\d+.\d+/.match(text)}.map{|rb| rb.sub(/\.tgz/, "")}
 
   Dir.mktmpdir("ruby_versions-") do |tmpdir|
     name = 'ruby_versions.yml'
