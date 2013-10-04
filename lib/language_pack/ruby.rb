@@ -261,10 +261,10 @@ private
     instrument 'ruby.install_ruby' do
       return false unless ruby_version
 
-      invalid_ruby_version_message = <<ERROR
-Invalid RUBY_VERSION specified: #{ruby_version}
-Valid versions: #{ruby_versions.join(", ")}
-ERROR
+      invalid_ruby_version_message = '' #<<ERROR
+#Invalid RUBY_VERSION specified: #{ruby_version}
+#Valid versions: #{ruby_versions.join(", ")}
+#ERROR
 
       if build_ruby?
         FileUtils.mkdir_p(build_ruby_path)
