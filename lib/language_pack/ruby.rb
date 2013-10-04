@@ -208,22 +208,14 @@ private
   # @note the value is memoized
   # @return [Array] list of Strings of the ruby versions available
   def ruby_versions
-puts " -- 1"
-puts @ruby_versions.inspect
-
     return @ruby_versions if @ruby_versions
 
     Dir.mktmpdir("ruby_versions-") do |tmpdir|
       Dir.chdir(tmpdir) do
         @fetchers[:buildpack].fetch("ruby_versions.yml")
         @ruby_versions = YAML::load_file("ruby_versions.yml")
-puts " -- 2"
-puts @ruby_versions.inspect
       end
     end
-
-puts " -- 1"
-puts @ruby_versions.inspect
 
     @ruby_versions
   end
@@ -269,13 +261,10 @@ puts @ruby_versions.inspect
     instrument 'ruby.install_ruby' do
       return false unless ruby_version
       
-puts "----- Testing ruby versions"
-puts ruby_versions
-
-      invalid_ruby_version_message = '' #<<ERROR
-#Invalid RUBY_VERSION specified: #{ruby_version}
-#Valid versions: #{ruby_versions.join(", ")}
-#ERROR
+      invalid_ruby_version_message = <<ERROR
+Invalid RUBY_VERSION specified: #{ruby_version}
+Valid versions: #{ruby_versions.join(", ")}
+ERROR
 
       if build_ruby?
         FileUtils.mkdir_p(build_ruby_path)
